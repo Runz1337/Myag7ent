@@ -1,1 +1,1 @@
-run = "python3 main.py"
+run = "export TERM=xterm-256color && python3 main.py"
