@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Search App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .search-container {
+            margin: 30px 0;
+            text-align: center;
+        }
+        #search-input {
+            width: 70%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 24px;
+            outline: none;
+        }
+        #search-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #f8f8f8;
+            border: 1px solid #f8f8f8;
+            border-radius: 24px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        #search-button:hover {
+            background-color: #eee;
+        }
+        #results {
+            margin-top: 30px;
+        }
+        .result-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+        }
+        .result-title {
+            color: #1a73e8;
+            margin: 0 0 5px 0;
+            font-size: 18px;
+        }
+        .result-url {
+            color: #006621;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        .result-snippet {
+            color: #545454;
+            margin: 5px 0;
+        }
+        .loading {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+        }
+        .error {
+            color: #d32f2f;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Google Search App</h1>
+    
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Enter your search query...">
+        <button id="search-button">Search</button>
+    </div>
+    
+    <div id="results">
+        <!-- Search results will be displayed here -->
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchButton = document.getElementById('search-button');
+            const resultsContainer = document.getElementById('results');
+            
+            // Handle search button click
+            searchButton.addEventListener('click', performSearch);
+            
+            // Also allow pressing Enter key
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                
+                if (!query) {
+                    resultsContainer.innerHTML = '<div class="error">Please enter a search query</div>';
+                    return;
+                }
+                
+                // Show loading state
+                resultsContainer.innerHTML = '<div class="loading">Searching...</div>';
+                
+                // Simulate API call with setTimeout
+                setTimeout(() => {
+                    // In a real app, this would be an API call to Google's search API
+                    // For this demo, we'll simulate results
+                    simulateGoogleSearch(query);
+                }, 1000);
+            }
+            
+            function simulateGoogleSearch(query) {
+                // Mock Google search results
+                const mockResults = [
+                    {
+                        title: `Google Search Results for "${query}"`,
+                        url: `https://www.google.com/search?q=${encodeURIComponent(query)}`,
+                        snippet: `Here are the search results for "${query}" from Google. This is a simulated result since we can't make actual API calls in this environment.`
+                    },
+                    {
+                        title: `Wikipedia - ${query}`,
+                        url: `https://en.wikipedia.org/wiki/${encodeURIComponent(query.replace(/\s+/g, '_'))}`,
+                        snippet: `Wikipedia article about ${query}. Wikipedia is a free online encyclopedia, created and edited by volunteers around the world.`
+                    },
+                    {
+                        title: `YouTube - ${query}`,
+                        url: `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`,
+                        snippet: `Videos related to ${query} on YouTube. Watch videos, share with friends, and explore content from around the world.`
+                    },
+                    {
+                        title: `News - ${query}`,
+                        url: `https://news.google.com/search?q=${encodeURIComponent(query)}`,
+                        snippet: `Latest news articles about ${query}. Stay updated with current events and headlines from trusted sources.`
+                    },
+                    {
+                        title: `Images - ${query}`,
+                        url: `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(query)}`,
+                        snippet: `Images related to ${query}. Browse through thousands of pictures and photos related to your search term.`
+                    }
+                ];
+                
+                // Clear results container
+                resultsContainer.innerHTML = '';
+                
+                // Display results
+                mockResults.forEach(result => {
+                    const resultItem = document.createElement('div');
+                    resultItem.className = 'result-item';
+                    
+                    const title = document.createElement('h3');
+                    title.className = 'result-title';
+                    title.textContent = result.title;
+                    
+                    const url = document.createElement('p');
+                    url.className = 'result-url';
+                    url.textContent = result.url;
+                    
+                    const snippet = document.createElement('p');
+                    snippet.className = 'result-snippet';
+                    snippet.textContent = result.snippet;
+                    
+                    resultItem.appendChild(title);
+                    resultItem.appendChild(url);
+                    resultItem.appendChild(snippet);
+                    
+                    resultsContainer.appendChild(resultItem);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
